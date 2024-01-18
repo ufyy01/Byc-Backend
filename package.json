@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.12.0",
+    "mongoose": "^8.1.0"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "Ufy",
+  "license": "ISC",
+  "description": ""
+}
