@@ -18,4 +18,4 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/api/products/', productRouter);
+app.use('/api/products', productRouter);

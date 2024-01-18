@@ -3,6 +3,16 @@ const router = express.Router();
 const { Product, validate } = require('../Models/productModel')
 
 
+//GET all products
+router.get('/', async (req, res) => {
+    const product = await Product.find().sort({createdAt: -1})
+    res.send(product);
+})
+
+
+
+
+//POST product
 router.post('/', async (req, res) => {
     //Joi validation
     const { error } = validate(req.body, {abortEarly: false})
@@ -14,7 +24,7 @@ router.post('/', async (req, res) => {
         res.status(200).send(product)
     }
     catch(error) {
-        res.status(400).send(error.details[0].message)
+        res.status(400).send(error.message)
     }
 })
 

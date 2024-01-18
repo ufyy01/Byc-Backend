@@ -20,7 +20,7 @@ const productSchema = new Schema({
     description: {
         type: String,
         minlength: 10,
-        maxlength: 50,
+        maxlength: 100,
         required: true
     },
     isAvailable: Boolean,
@@ -48,7 +48,7 @@ function validateProduct(product) {
         // image: Joi.string().required(),
         name: Joi.string().min(4).max(25).required(),
         code: Joi.string().required(),
-        description: Joi.string().min(10).max(50).required(),
+        description: Joi.string().min(10).max(100).required(),
         isAvailable: Joi.boolean().required(),
         price: Joi.number().when('isAvailable', {
             is: true,
