@@ -1,0 +1,102 @@
+[
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705702259/Black_Singlet_3_t4w5ns.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705702273/Black_Singlet_2.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705702287/Black_Singlet_1.jpg" ],
+        "name": "Cowl neck vest black",
+        "code": "byc 1021",
+        "description": "Round neck singlet, made from the best fabric, and is very durable",
+        "isAvailable": true,
+        "price": 5000,
+        "category": "men",
+        "tag": "singlet"
+    },
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705703346/Pant_3_ggljpj.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703350/Pant_1_zdm87a.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703360/Pant_2_lpudev.jpg"],
+        "name": "Byc mens pant",
+        "code": "byc 1022",
+        "description": "long lasting, comfortable mens pant for active and ambitious men",
+        "isAvailable": true,
+        "price": 3000,
+        "category": "men",
+        "tag": "pants"
+    },
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705703723/Boxers_2_hytxg5.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703723/Boxers_1_rozrw5.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703726/Boxers_4_d3vnwf.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703726/Boxers_6_ish7ft.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703738/Boxers_5_cudlur.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703726/Boxers_3_iocjhi.jpg"],
+        "name": "domestic boxers",
+        "code": "byc 1023",
+        "description": "Beautiful cotton boxers, made with high quality materials",
+        "isAvailable": true,
+        "price": 6000,
+        "category": "men",
+        "tag": "boxers"
+    },
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705703864/White_Boxers_vfttc2.jpg"],
+        "name": "byc pant briefs",
+        "code": "byc 1024",
+        "description": "High quality pant briefs for maximum comfort",
+        "isAvailable": true,
+        "price": 5500,
+        "category": "men",
+        "tag": "pants"
+    },
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705703997/Black_T-shirt_1_sqqe7q.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705704002/Black_T-shirt_2_fd6pe5.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705704007/Black_T-shirt_3_ic1rmn.jpg"],
+        "name": "V-neck T-shirt",
+        "code": "byc 1025",
+        "description": "Premium T-shirt made with high quality cotton",
+        "isAvailable": true,
+        "price": 7000,
+        "category": "men",
+        "tag": "t-shirt"
+    },
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705704341/U-neck_T-shirt_White_1_ejbugu.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705704342/U-neck_T-shirt_White_2_aczqiw.jpg"],
+        "name": "U-neck T-shirt white",
+        "code": "byc 1026",
+        "description": "Premium T-shirt made with high quality cotton",
+        "isAvailable": true,
+        "price": 7000,
+        "category": "men",
+        "tag": "t-shirt"
+    },
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705704453/Super_Singlet_White_1_oo3owq.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705704457/Super_Singlet_White_3_xf9tcz.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705704453/Super_Singlet_White_2_oo3owq.jpg"],
+        "name": "Cowl neck vest white",
+        "code": "byc 1027",
+        "description": "Round neck singlet, made from the best fabric, and is very durable",
+        "isAvailable": true,
+        "price": 4500,
+        "category": "men",
+        "tag": "singlet"
+    },
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705704642/BYC_Scropio_White_1_m3r9n2.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705704635/BYC_Scropio_White_2_ddltp4.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705704657/BYC_Scropio_White_3_zohwhk.jpg"],
+        "name": "byc scorpio briefs white",
+        "code": "byc 1028",
+        "description": "High quality pant briefs for maximum comfort",
+        "isAvailable": true,
+        "price": 6000,
+        "category": "men",
+        "tag": "pants"
+    },
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705709534/BYC_Scropio_black_1_beyd39.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705709534/BYC_Scropio_black_2_mz1cns.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705709535/BYC_Scropio_black_8_qmiklc.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705709552/BYC_Scropio_black_4_qvm3z4.jpg"],
+        "name": "byc scorpio briefs black",
+        "code": "byc 1029",
+        "description": "High quality pant briefs for maximum comfort",
+        "isAvailable": true,
+        "price": 5500,
+        "category": "men",
+        "tag": "pants"
+    },
+    {
+        "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705705078/U-Neck_T-shirt_Grey_2_ydnasx.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705705066/U-Neck_T-shirt_Grey_1_jfkzdt.jpg"],
+        "name": "U-neck T-shirt grey",
+        "code": "byc 1030",
+        "description": "Premium T-shirt made with high quality cotton",
+        "isAvailable": true,
+        "price": 8000,
+        "category": "men",
+        "tag": "t-shirt"
+    }
+]

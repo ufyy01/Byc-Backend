@@ -3,10 +3,18 @@ const Schema = mongoose.Schema;
 const Joi = require('joi');
 
 const productSchema = new Schema({
-    // image: {
-    //     type: String,
-    //     required: true
-    // },
+    image: {
+        type: [{
+            type: String,
+            trim: true
+        }],
+        validate: {
+            validator: function(v) {
+                return v && v.length > 0;
+            },
+            message: 'A product should have at least one image!'
+        }
+    },
     name: {
         type: String,
         minlength: 4,
@@ -36,7 +44,7 @@ const productSchema = new Schema({
     tag : {
         type: String,
         required: true,
-        enum: ['boxers', 'camisole','pants','T-shirt', 'singlet','towels']
+        enum: ['boxers', 'camisole','pants','t-shirt', 'singlet','towels']
     }
 }, {timestamps:true})
 
@@ -45,7 +53,7 @@ const Product = mongoose.model('Product', productSchema);
 
 function validateProduct(product) {
     const schema = Joi.object({
-        // image: Joi.string().required(),
+        image: Joi.array(),
         name: Joi.string().min(4).max(25).required(),
         code: Joi.string().required(),
         description: Joi.string().min(10).max(100).required(),
