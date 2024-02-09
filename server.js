@@ -1,11 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const productRouter = require('./Routes/products');
-require('dotenv').config()
+const productRouter = require('./Route/products');
+const userRouter = require('./Route/users')
+const cookieParser = require('cookie-parser')
 
 const app = express();
 
 app.use(express.json())
+app.use(cookieParser())
 // app.use(express.urlencoded({extended: true}))
 
 mongoose.connect(process.env.MONGO_URI)
@@ -22,3 +24,4 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);

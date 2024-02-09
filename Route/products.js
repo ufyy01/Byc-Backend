@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { getProducts, getOneProduct, createProduct, deleteProduct, updateProduct } = require('../Controllers/productCtrl')
+const requireAuth = require('../Middleware/authMiddleware')
+const requireAdmin = require('../Middleware/adminMiddleware')
+
 
 
 
@@ -11,13 +14,13 @@ router.get('/', getProducts)
 router.get('/:id', getOneProduct)
 
 //POST product
-router.post('/', createProduct)
+router.post('/', [requireAuth, requireAdmin], createProduct)
 
 //DELETE one product
-router.delete('/:id', deleteProduct)
+router.delete('/:id', [requireAuth, requireAdmin], deleteProduct)
 
 //UPDATE one product
-router.put('/:id', updateProduct)
+router.put('/:id', [requireAuth, requireAdmin], updateProduct)
 
 
 
