@@ -18,14 +18,14 @@ const getOneProduct =  async (req, res) => {
 }
 
 const createProduct =  async (req, res) => {
-    const { image, name, code, description, isAvailable, price, category, tag } = req.body;
+    const { image, name, code, summary, description, isAvailable, price, category, tag, numberInStock } = req.body;
 
     //Joi validation
     const { error } = validate(req.body, {abortEarly: false})
     if (error) return res.status(400).send(error.details[0].message);
 
     try {
-        const product = await Product.create({image, name, code, description, isAvailable, price, category, tag })
+        const product = await Product.create({image, name, code, summary, description, isAvailable, price, category, tag, numberInStock })
         res.status(200).send(product)
     }
     catch(error) {

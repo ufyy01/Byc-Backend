@@ -25,10 +25,16 @@ const productSchema = new Schema({
         type: String,
         required: true
     },
-    description: {
+    summary: {
         type: String,
         minlength: 10,
         maxlength: 100,
+        required: true  
+    },
+    description: {
+        type: String,
+        minlength: 10,
+        maxlength: 200,
         required: true
     },
     isAvailable: Boolean,
@@ -45,6 +51,11 @@ const productSchema = new Schema({
         type: String,
         required: true,
         enum: ['boxers', 'camisole','pants','t-shirt', 'singlet','towels']
+    },
+    numberInStock: {
+        type: Number,
+        required: true,
+        min: 0,
     }
 }, {timestamps:true})
 
@@ -56,7 +67,8 @@ function validateProduct(product) {
         image: Joi.array(),
         name: Joi.string().min(4).max(25).required(),
         code: Joi.string().required(),
-        description: Joi.string().min(10).max(100).required(),
+        summary: Joi.string().min(10).max(100).required(),
+        description: Joi.string().min(10).max(200).required(),
         isAvailable: Joi.boolean().required(),
         price: Joi.number().when('isAvailable', {
             is: true,
@@ -66,6 +78,7 @@ function validateProduct(product) {
         ),
         category: Joi.string().required(),
         tag: Joi.string().required(),
+        numberInStock: Joi.number().min(0).required()
     }) 
     return schema.validate(product)
 }

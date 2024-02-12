@@ -1,7 +1,10 @@
+const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi)
 const express = require('express');
 const mongoose = require('mongoose');
 const productRouter = require('./Route/products');
 const userRouter = require('./Route/users')
+const cartRouter = require('./Route/cart')
 const cookieParser = require('cookie-parser')
 
 const app = express();
@@ -25,3 +28,4 @@ app.use((req, res, next) => {
 
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
+app.use('/api/cart', cartRouter)

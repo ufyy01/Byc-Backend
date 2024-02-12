@@ -55,7 +55,7 @@ module.exports.signup_post = async (req, res) => {
         const token = user.generateAuthToken()
         res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
 
-        res.header('x-auth-token', token).send({name, email, phone }) //find a way to display id without lodash
+        res.header('x-auth-token', token).send({user: user._id, name, email, phone }) //find a way to display id without lodash
     }
     catch (err) {
         const errors = handleErrors(err);

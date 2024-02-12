@@ -13,11 +13,13 @@
         "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705703346/Pant_3_ggljpj.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703350/Pant_1_zdm87a.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703360/Pant_2_lpudev.jpg"],
         "name": "Byc mens pant",
         "code": "byc 1022",
-        "description": "long lasting, comfortable mens pant for active and ambitious men",
+        "summary": "long lasting, comfortable mens pant for active and ambitious men",
+        "description": "long lasting, comfortable mens pant for active and ambitious men. Good quality cooton fabric that is super breathable",
         "isAvailable": true,
         "price": 3000,
         "category": "men",
-        "tag": "pants"
+        "tag": "pants",
+        "numberInStock": 205
     },
     {
         "image": ["https://res.cloudinary.com/daisikwbm/image/upload/v1705703723/Boxers_2_hytxg5.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703723/Boxers_1_rozrw5.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703726/Boxers_4_d3vnwf.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703726/Boxers_6_ish7ft.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703738/Boxers_5_cudlur.jpg", "https://res.cloudinary.com/daisikwbm/image/upload/v1705703726/Boxers_3_iocjhi.jpg"],
