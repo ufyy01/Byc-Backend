@@ -21,11 +21,15 @@ const postCart = async (req, res) => {
         const user = await User.findById(customer);
         if (!user) return res.status(404).send('Invalid user');
 
+        // Check if the user already has a cart
+        let cart = await Cart.findOne({ customer });
 
-        // Check product availability and calculate total price
-        let totalPrice = 0;
-        const cartProducts = [];
+        if (!cart) {
+            // If the user doesn't have a cart, create a new one
+            cart = new Cart({ customer });
+        }
 
+        //Add new products to cart
         for (const product of products) {
             const productDetails = await Product.findById(product.productId);
             if (!productDetails || productDetails.numberInStock === 0) {
@@ -33,14 +37,11 @@ const postCart = async (req, res) => {
             }
             const { image, name, code, summary, price } = productDetails;
 
-            // Calculate the total price for this product
-            const productTotalPrice = price * product.quantity;
-            totalPrice += productTotalPrice;
 
             // Add the product to the list of cart products
-            cartProducts.push({
+            cart.products.push({
                 _id: product.productId,
-                image: image[0], // Assuming image is an array, take the first image
+                image: image[0], 
                 name,
                 code,
                 summary,
@@ -51,12 +52,12 @@ const postCart = async (req, res) => {
             });
         }
 
-        // Create cart object
-        const cart = new Cart({
-            customer,
-            products: cartProducts,
-            billing: totalPrice
-        });
+        // Recalculate the billing based on the updated products
+        let totalPrice = 0;
+        for (const product of cart.products) {
+            totalPrice += product.price * product.quantity;
+        }
+        cart.billing = totalPrice;
 
         // Save cart to database
         const newCart = await cart.save();
@@ -69,13 +70,13 @@ const postCart = async (req, res) => {
 //delete product from cart
 const deleteProduct = async (req, res) => {
 
-    console.log(req.params)
-
-    const { cartId, productId } = req.params;
-
+    
+    const { id, productId } = req.params;
+    
+    console.log(id, productId)
     try {
-        const cart = await Cart.findById(cartId);
-        console.error(`Cart not found for ID: ${cartId}`);
+        const cart = await Cart.findById(id);
+        console.error(`Cart not found for ID: ${id}`);
         if (!cart) return res.status(404).send('Cart not found');
 
         // Find the index of the product to remove

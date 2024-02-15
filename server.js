@@ -6,6 +6,8 @@ const productRouter = require('./Route/products');
 const userRouter = require('./Route/users')
 const cartRouter = require('./Route/cart')
 const cookieParser = require('cookie-parser')
+const requireAuth = require('./Middleware/authMiddleware')
+
 
 const app = express();
 
@@ -28,4 +30,4 @@ app.use((req, res, next) => {
 
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
-app.use('/api/cart', cartRouter)
+app.use('/api/cart', requireAuth, cartRouter)
