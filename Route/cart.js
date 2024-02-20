@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getCart, postCart, deleteProduct } = require('../Controllers/cartCtrl')
+const { getCart, postCart, deleteCartProduct } = require('../Controllers/cartCtrl')
 // const requireAdmin = require('../Middleware/adminMiddleware')
 
 
@@ -12,8 +12,8 @@ router.get('/:id', getCart)
 router.post('/', postCart)
 
 //DELETE product
-router.delete('/:id/:productId', deleteProduct)
+router.delete('/:id/:productId', deleteCartProduct)
 
 
 
-module.exports = router;
+module.exports = router; 

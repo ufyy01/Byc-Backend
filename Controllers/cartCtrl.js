@@ -3,8 +3,12 @@ const { User } = require('../Models/user')
 const { Product } = require('../Models/productModel')
 
 
+
 const getCart = async (req, res) => {
-    const cart = await Cart.findById(req.params.id)
+    const cart = await Cart.findById(req.params.id).populate({
+        path: 'customer',
+        select: '-password'
+    })
     res.send(cart)
 }
 
@@ -68,19 +72,17 @@ const postCart = async (req, res) => {
 }
 
 //delete product from cart
-const deleteProduct = async (req, res) => {
+const deleteCartProduct = async (req, res) => {
 
     
     const { id, productId } = req.params;
     
-    console.log(id, productId)
     try {
         const cart = await Cart.findById(id);
-        console.error(`Cart not found for ID: ${id}`);
         if (!cart) return res.status(404).send('Cart not found');
 
         // Find the index of the product to remove
-        const productIndex = cart.products.findIndex(product => product._id === productId);
+        const productIndex = cart.products.findIndex(product => product.id === productId);
 
         // If the product is not found in the cart, return 404
         if (productIndex === -1) {
@@ -109,11 +111,35 @@ const deleteProduct = async (req, res) => {
 }
 
 
+//cron job to clear cart data after 30 days
+const clearExpiredCarts = async () => {
+    try {
+        // Calculate the date 30 days ago
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        // Find carts that were last updated more than 30 days ago
+        const expiredCarts = await Cart.find({ updatedAt: { $lt: thirtyDaysAgo } });
+
+        // Clear products from expired carts
+        for (const cart of expiredCarts) {
+            cart.products = [];
+            cart.billing = 0;
+            await cart.save();
+        }
+
+        console.log('Expired carts cleared successfully.');
+    } catch (error) {
+        console.error('Error clearing expired carts:', error);
+    }
+};
+
 
 
 
 module.exports = {
     getCart,
     postCart,
-    deleteProduct
+    deleteCartProduct,
+    clearExpiredCarts
 }
