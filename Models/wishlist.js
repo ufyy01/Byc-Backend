@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
 
-const cartSchema = new mongoose.Schema({
+const wishlistSchema = new mongoose.Schema({
     customer: {
         type : mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -42,32 +42,23 @@ const cartSchema = new mongoose.Schema({
                 type: Number,
                 default: 1,
                 max: 10
-            },
-            dateAdded: {
-                type: Date,
-                default: Date.now
             }
         }),
         required: true
     }],
-    billing: {
-        type: Number,
-        min: 0,
-        required: true
-    }
 }, {timestamps:true})
 
 
-const Cart = mongoose.model('Cart', cartSchema);
+const Wishlist = mongoose.model('Wishlist', wishlistSchema);
 
 
-function validateCart(cart) {
+function validateWishlist(wishlist) {
     const schema = Joi.object({
         customer: Joi.objectId().required(),
         products: Joi.array().required(),
     }) 
-    return schema.validate(cart)
+    return schema.validate(wishlist)
 }
 
-exports.Cart = Cart;
-exports.validate = validateCart;
+exports.Wishlist = Wishlist;
+exports.validate = validateWishlist;
