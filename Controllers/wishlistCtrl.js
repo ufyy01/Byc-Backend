@@ -33,26 +33,25 @@ const postWishlist = async (req, res) => {
         //Add new products to wishlist
         for (const product of products) {
             const productDetails = await Product.findById(product.productId);
+
             if (!productDetails || productDetails.numberInStock === 0) {
                 return res.status(404).send('Product not found or out of stock');
             }
+
             const { image, name, code, summary, price } = productDetails;
 
-            totalSum += product.quantity * productDetails.price;
-
-            // Add the product to the list of wishlist products
-            wishlist.products.push({
-                _id: product.productId,
-                image: image[0], 
-                name,
-                code,
-                summary,
-                price,
-                totalSum: totalSum,
-                quantity: product.quantity,
-                color: product.color,
-                size: product.size
-            });
+            const checkProductIndex = cart.products.findIndex(prod => prod.id === product.productId);
+            if (checkProductIndex === -1) {
+                // Add the product to the list of wishlist products
+                wishlist.products.push({
+                    _id: product.productId,
+                    image: image[0], 
+                    name,
+                    code,
+                    summary,
+                    price
+                });
+            }
         }
 
         // Save wishlist to database
@@ -82,9 +81,6 @@ const deleteWishlistProduct = async (req, res) => {
         return res.status(404).send('Product not found in wishlist');
         }
 
-         // Get the price and quantity of the product being removed
-        const { price, quantity } = wishlist.products[productIndex];
-
         // Remove the product from the wishlist's product array
         wishlist.products.splice(productIndex, 1);
 
@@ -99,9 +95,34 @@ const deleteWishlistProduct = async (req, res) => {
     }
 }
 
+const clearExpiredWishlist = async () => {
+    try {
+
+        // Get all wishlists
+        const wishlists = await Wishlist.find();
+
+       // Iterate through each wishlist
+        for (const wishlist of wishlists) {
+            // Filter out expired products
+            wishlist.products = wishlist.products.filter(product => {
+                const creationDate = new Date(product.dateAdded);
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 1);
+                return creationDate > thirtyDaysAgo;
+            });
+
+            // Save the updated wishlist
+            await wishlist.save();
+        }
+    } catch (error) {
+        console.error('Error clearing expired wishlists:', error);
+    }
+};
+
 
 module.exports = {
     getWishlist,
     postWishlist,
-    deleteWishlistProduct
+    deleteWishlistProduct,
+    clearExpiredWishlist
 }

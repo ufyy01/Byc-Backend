@@ -27,26 +27,15 @@ const wishlistSchema = new mongoose.Schema({
             },
             price: {
                 type: Number,
-            },
-            totalSum: {
-                type: Number
-            },
-            color: {
-                type: String
-            },
-            size: {
-                type: String,
-                enum: ['s', 'm','l','xl']
-            },
-            quantity: {
-                type: Number,
-                default: 1,
-                max: 10
             }
         }),
         required: true
     }],
-}, {timestamps:true})
+    dateAdded: {
+        type: Date,
+        default: Date.now
+    }
+})
 
 
 const Wishlist = mongoose.model('Wishlist', wishlistSchema);
