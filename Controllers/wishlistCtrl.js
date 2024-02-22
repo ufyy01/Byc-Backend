@@ -5,7 +5,7 @@ const { Product } = require('../Models/productModel')
 
 
 const getWishlist = async (req, res) => {
-    const wishlist = await wishlist.findById(req.params.id)
+    const wishlist = await Wishlist.findById(req.params.id)
     res.send(wishlist)
 }
 
@@ -40,7 +40,7 @@ const postWishlist = async (req, res) => {
 
             const { image, name, code, summary, price } = productDetails;
 
-            const checkProductIndex = cart.products.findIndex(prod => prod.id === product.productId);
+            const checkProductIndex = wishlist.products.findIndex(prod => prod.id === product.productId);
             if (checkProductIndex === -1) {
                 // Add the product to the list of wishlist products
                 wishlist.products.push({

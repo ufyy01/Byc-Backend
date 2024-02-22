@@ -1,5 +1,5 @@
 const { Order, validate } = require('../Models/order')
-const { User } = require('../Models/user')
+const { Product } = require('../Models/productModel')
 
 
 
@@ -65,6 +65,25 @@ const postOrder = async (req, res) => {
         
         const orderNo = generateOrderNumber(15)
 
+        try {
+            // Iterate through each item in cartItem
+            for (const item of cartItem) {
+                // Find the product and update its stock quantity
+                const product = await Product.findById(item.productId).session(session);
+                if (!product) {
+                    throw new Error(`Product not found`);
+                }
+
+                // Check if there are enough items in stock
+                if (product.numberInStock < item.quantity) {
+                    throw new Error(`Insufficient stock for product with ID ${item.productId}`);
+                }
+
+                // Update the stock quantity
+                product.numberInStock -= item.quantity;
+                await product.save({ session });
+            }
+
         //create new order
         const order = new Order({
             orderNo,
@@ -75,11 +94,21 @@ const postOrder = async (req, res) => {
             orderDate
         });
 
-
         // Save the order to the database
-        const newOrder = await order.save();
+        const newOrder = await order.save({ session });
+
+        // Commit the transaction
+        await session.commitTransaction();
+        session.endSession();
 
         res.status(201).json(newOrder);
+        } 
+        catch (error) {
+        // Rollback the transaction on error
+        await session.abortTransaction();
+        session.endSession();
+        throw error; // Rethrow the error to be caught by the outer catch block
+        }
     } 
     catch (error) {
         console.error('Error placing order:', error);
