@@ -1,7 +1,6 @@
 const { Order, validate } = require('../Models/order')
 const { Product } = require('../Models/productModel')
-
-
+const { Cart } = require('../Models/cart')
 
 const getOrders = async (req, res) => {
     try {
@@ -53,6 +52,31 @@ const postOrder = async (req, res) => {
         const { error } = validate(req.body)
         if (error) return res.status(400).send(error.details[0].message);
         
+        // Retrieve the cart using the provided cart ID
+        const cart = await Cart.findById(cartItem).populate('products');
+        if (!cart) return res.status(404).send('Cart not found');
+
+        // Extract the product IDs and quantities associated with the retrieved cart
+        const productsToUpdate = cart.products.map(product => ({
+            productId: product._id,
+            quantity: product.quantity
+        }));
+
+        // Update the stock quantity for each product
+        for (const { productId, quantity } of productsToUpdate) {
+            const product = await Product.findById(productId);
+            if (!product) continue; // Skip if product not found
+            
+            // Check if there are enough items in stock
+            if (product.numberInStock < quantity) {
+                return res.status(400).send(`Insufficient stock`);
+            }
+
+            // Update the stock quantity
+            product.numberInStock -= quantity;
+            await product.save();
+        }
+        
         //function for random order number
         function generateOrderNumber(length) {
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -63,30 +87,9 @@ const postOrder = async (req, res) => {
             return result;
         }
         
-        const orderNo = generateOrderNumber(15)
-
-        try {
-            // Iterate through each item in cartItem
-            for (const item of cartItem) {
-                // Find the product and update its stock quantity
-                const product = await Product.findById(item.productId).session(session);
-                if (!product) {
-                    throw new Error(`Product not found`);
-                }
-
-                // Check if there are enough items in stock
-                if (product.numberInStock < item.quantity) {
-                    throw new Error(`Insufficient stock for product with ID ${item.productId}`);
-                }
-
-                // Update the stock quantity
-                product.numberInStock -= item.quantity;
-                await product.save({ session });
-            }
-
         //create new order
         const order = new Order({
-            orderNo,
+            orderNo: generateOrderNumber(15),
             cartItem,
             company,
             shippingAddress,
@@ -95,20 +98,10 @@ const postOrder = async (req, res) => {
         });
 
         // Save the order to the database
-        const newOrder = await order.save({ session });
+        const newOrder = await order.save();
 
         // Commit the transaction
-        await session.commitTransaction();
-        session.endSession();
-
         res.status(201).json(newOrder);
-        } 
-        catch (error) {
-        // Rollback the transaction on error
-        await session.abortTransaction();
-        session.endSession();
-        throw error; // Rethrow the error to be caught by the outer catch block
-        }
     } 
     catch (error) {
         console.error('Error placing order:', error);
