@@ -134,11 +134,10 @@ const deleteCartProduct = async (req, res) => {
 //Move product to wishlist
 const moveToWish = async (req, res) => {
     const productId = req.params.productId;
-    const userId = req.user.id;
 
     try {
         // Find the user's cart
-        const cart = await Cart.findOne({ customer: userId });
+        const cart = await Cart.findOne({ products: productId });
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found for user' });
         }
