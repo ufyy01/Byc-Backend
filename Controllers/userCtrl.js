@@ -69,7 +69,7 @@ module.exports.login_post = async (req, res) => {
         const user = await User.login(email, password)
         const token = user.generateAuthToken()
         res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
-        res.status(200).header('x-auth-token', token).json({user: user._id})
+        res.status(200).header('Authorization', `Bearer ${token}`).json({user: user._id});
     }
     catch(err) {
         const errors = handleErrors(err)

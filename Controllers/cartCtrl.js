@@ -1,15 +1,19 @@
 const { Cart, validate } = require('../Models/cart')
 const { User } = require('../Models/user')
 const { Product } = require('../Models/productModel')
+const { Wishlist } = require('../Models/wishlist')
 
 
 
 const getCart = async (req, res) => {
-    const cart = await Cart.findById(req.params.id).populate({
-        path: 'customer',
-        select: '-password'
-    })
+    const customerId = req.params.userId
+
+    const cart = await Cart.findOne({ customer: customerId });
+    console.log(customerId)
+    if (!cart) return res.status(404).send('No cart found');
+
     res.send(cart)
+
 }
 
 
@@ -50,10 +54,8 @@ const postCart = async (req, res) => {
                 prod.color === product.color &&
                 prod.size === product.size
             );
-            console.log(existingProductIndex)
 
             if (existingProductIndex !== -1) {
-                console.log(true)
                 // If the product exists, update its quantity
                 cart.products[existingProductIndex].quantity = product.quantity;
                 cart.products[existingProductIndex].totalSum = product.quantity * productDetails.price;
@@ -129,6 +131,47 @@ const deleteCartProduct = async (req, res) => {
     }
 }
 
+//Move product to wishlist
+const moveToWish = async (req, res) => {
+    const productId = req.params.productId;
+    const userId = req.user.id;
+
+    try {
+        // Find the user's cart
+        const cart = await Cart.findOne({ customer: userId });
+        if (!cart) {
+            return res.status(404).json({ message: 'Cart not found for user' });
+        }
+
+        // Find the product in the cart
+        const productIndex = cart.products.findIndex(product => product._id === productId);
+        if (productIndex === -1) {
+            return res.status(404).json({ message: 'Product not found in cart' });
+        }
+
+        // Remove the product from the cart
+        const [product] = cart.products.splice(productIndex, 1);
+
+        // Find or create the user's wishlist
+        let wishlist = await Wishlist.findOne({ customer: userId });
+        if (!wishlist) {
+            wishlist = new Wishlist({ customer: userId, products: [] });
+        }
+
+        // Add the product to the wishlist
+        wishlist.products.push(product);
+
+        // Save the updated cart and wishlist
+        await cart.save();
+        await wishlist.save();
+
+        res.json({ wishlist });
+    }
+    catch (error) {
+        console.error('Error moving product to wishlist:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+}
 
 //cron job to clear cart data after 30 days
 const clearExpiredCarts = async () => {
@@ -167,5 +210,6 @@ module.exports = {
     getCart,
     postCart,
     deleteCartProduct,
+    moveToWish,
     clearExpiredCarts
 }

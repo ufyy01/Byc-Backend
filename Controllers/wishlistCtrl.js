@@ -4,6 +4,7 @@ const { Product } = require('../Models/productModel')
 
 
 
+
 const getWishlist = async (req, res) => {
     const wishlist = await Wishlist.findById(req.params.id)
     res.send(wishlist)
