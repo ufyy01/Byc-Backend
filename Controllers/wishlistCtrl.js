@@ -15,7 +15,9 @@ const getWishlist = async (req, res) => {
 
 const postWishlist = async (req, res) => {
 
-    const { customer, products} = req.body;
+    const { products } = req.body;
+    const customer = req.user._id;
+
 
     const { error } = validate(req.body)
     if (error) return res.status(400).send(error.details[0].message);

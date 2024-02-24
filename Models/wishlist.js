@@ -43,7 +43,6 @@ const Wishlist = mongoose.model('Wishlist', wishlistSchema);
 
 function validateWishlist(wishlist) {
     const schema = Joi.object({
-        customer: Joi.objectId().required(),
         products: Joi.array().required(),
     }) 
     return schema.validate(wishlist)
