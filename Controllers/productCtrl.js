@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const getProducts =  async (req, res) => {
     const product = await Product.find().sort({createdAt: -1})
+    if (!product) return res.status(404).send('product not found')
     res.send(product);
 }
 
