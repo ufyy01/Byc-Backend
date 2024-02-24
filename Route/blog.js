@@ -14,7 +14,7 @@ router.get('/', getBlogs)
 router.get('/:id', getOneBlog)
 
 //LIKE blog
-router.get('/like/:id', blogLikes)
+router.get('/like/:id', requireAuth, blogLikes)
 
 //POST Blog
 router.post('/', [requireAuth, requireAdmin], createBlog)

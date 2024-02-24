@@ -40,10 +40,10 @@ app.use((req, res, next) => {
 
 app.use('/api/products', productRouter);
 app.use('/api/user', userRouter);
-app.use('/api/cart', requireAuth, cartRouter)
-app.use('/api/order', requireAuth, orderRouter)
+app.use('/api/cart', cartRouter)
+app.use('/api/order', orderRouter)
 app.use('/api/wishlist', requireAuth, wishlistRouter)
-app.use('/api/blog', requireAuth, blogRouter)
+app.use('/api/blog', blogRouter)
 
 //calling clear cart function to schedule the cron job to run at 00:00 (midnight) every day
 cron.schedule('0 0 * * *', clearExpiredCarts);
