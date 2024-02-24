@@ -4,14 +4,7 @@ const { Cart } = require('../Models/cart')
 
 const getOrders = async (req, res) => {
     try {
-        const order = await Order.find().populate({
-            path: 'cartItem',
-            populate: {
-                path: 'customer',
-                select: '-password',
-                model: 'User'
-            }
-        });
+        const order = await Order.find().populate();
         if (!order) return res.status(404).send('No order has been placed');
     
         res.send(order);
@@ -43,6 +36,7 @@ const getOrder = async (req, res) => {
 }
 
 const postOrder = async (req, res) => {
+    const userId = req.user._id;
 
     try {
         //destructure req.body
@@ -53,7 +47,7 @@ const postOrder = async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
         
         // Retrieve the cart using the provided cart ID
-        const cart = await Cart.findById(cartItem).populate('products');
+        const cart = await Cart.findOne({ customer: userId }).populate('products');
         if (!cart) return res.status(404).send('Cart not found');
 
         // Extract the product IDs and quantities associated with the retrieved cart
@@ -61,6 +55,10 @@ const postOrder = async (req, res) => {
             productId: product._id,
             quantity: product.quantity
         }));
+
+        cart.products = [];
+        cart.billing = 0;
+        cart.save()
 
         // Update the stock quantity for each product
         for (const { productId, quantity } of productsToUpdate) {
