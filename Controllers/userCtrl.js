@@ -36,11 +36,6 @@ const handleErrors = (err) => {
 //JWT function 
 const maxAge = 3 * 24 * 60 * 60
 
-// const createToken = (id) => {
-//     // { _id: this._id, isAdmin: this.isAdmin }
-//     return jwt.sign({ id }, config.jwtKey, {expiresIn: maxAge})
-// }
-
 
 module.exports.signup_post = async (req, res) => {
 
