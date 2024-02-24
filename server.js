@@ -23,7 +23,7 @@ const app = express();
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: "*"
+    origin: "http://127.0.0.1:5500"
 }))
 // app.use(express.urlencoded({extended: true}))
 
