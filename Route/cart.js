@@ -5,7 +5,7 @@ const { getCart, postCart, deleteCartProduct, moveToWish } = require('../Control
 
 
 //get cart
-router.get('/:userId', getCart)
+router.get('/', getCart)
 
 
 //POST cart

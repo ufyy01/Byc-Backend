@@ -5,7 +5,7 @@ const {getWishlist, postWishlist, deleteWishlistProduct } = require('../Controll
 
 
 //get cart
-router.get('/:id', getWishlist)
+router.get('/', getWishlist)
 
 
 //POST Wishlist

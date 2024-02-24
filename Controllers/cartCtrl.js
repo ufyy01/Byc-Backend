@@ -6,10 +6,9 @@ const { Wishlist } = require('../Models/wishlist')
 
 
 const getCart = async (req, res) => {
-    const customerId = req.params.userId
+    const userId = req.user._id;
 
-    const cart = await Cart.findOne({ customer: customerId });
-    console.log(customerId)
+    const cart = await Cart.findOne({ customer: userId });
     if (!cart) return res.status(404).send('No cart found');
 
     res.send(cart)
@@ -134,22 +133,30 @@ const deleteCartProduct = async (req, res) => {
 //Move product to wishlist
 const moveToWish = async (req, res) => {
     const productId = req.params.productId;
+    const userId = req.user._id;
 
     try {
         // Find the user's cart
-        const cart = await Cart.findOne({ products: productId });
+        const cart = await Cart.findOne({ customer: userId });
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found for user' });
         }
 
         // Find the product in the cart
-        const productIndex = cart.products.findIndex(product => product._id === productId);
+        const productIndex = cart.products.findIndex(product => product.id === productId);
+        console.log(productIndex)
         if (productIndex === -1) {
             return res.status(404).json({ message: 'Product not found in cart' });
         }
 
+        // Get the price and quantity of the product being removed
+        const { price, quantity } = cart.products[productIndex];
+
         // Remove the product from the cart
         const [product] = cart.products.splice(productIndex, 1);
+        
+        // Update the billing by subtracting the removed product's cost
+        cart.billing -= price * quantity;
 
         // Find or create the user's wishlist
         let wishlist = await Wishlist.findOne({ customer: userId });
@@ -185,7 +192,7 @@ const clearExpiredCarts = async () => {
             cart.products = cart.products.filter(product => {
                 const creationDate = new Date(product.dateAdded);
                 const thirtyDaysAgo = new Date();
-                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 1);
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
                 return creationDate > thirtyDaysAgo;
             });
 
