@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const {getWishlist, postWishlist, deleteWishlistProduct } = require('../Controllers/wishlistCtrl')
-// const requireAdmin = require('../Middleware/adminMiddleware')
 
 
 //get cart
