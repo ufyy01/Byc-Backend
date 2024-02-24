@@ -25,7 +25,7 @@ app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-    origin: "*",
+    origin: "http://127.0.0.1:5500",
     methods: ["GET", "PUT", "POST", "DELETE"]
 }))
 // app.use(express.urlencoded({extended: true}))
