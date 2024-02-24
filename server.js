@@ -23,7 +23,8 @@ const app = express();
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: "http://127.0.0.1:5500"
+    origin: "*",
+    methods: ["GET", "PUT", "POST", "DELETE"]
 }))
 // app.use(express.urlencoded({extended: true}))
 
