@@ -13,6 +13,7 @@ const blogRouter = require('./Route/blog')
 
 const cookieParser = require('cookie-parser')
 const requireAuth = require('./Middleware/authMiddleware')
+const checkUser = require('./Middleware/checkUser')
 const cron = require('node-cron');
 const { clearExpiredCarts } =require('./Controllers/cartCtrl')
 const { clearExpiredWishlist } =require('./Controllers/wishlistCtrl')
@@ -43,6 +44,8 @@ app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
 })
+
+app.get('*', checkUser)
 
 app.use('/api/products', productRouter);
 app.use('/api/user', userRouter);
