@@ -9,7 +9,7 @@ const getCart = async (req, res) => {
     const userId = req.user;
     console.log(userId)
 
-    const cart = await Cart.findOne({ customer: userId });
+    let cart = await Cart.findOne({ customer: userId });
     if (!cart) {
         // If the user doesn't have a cart, create a new one
         cart = new Cart({ customer: userId });
