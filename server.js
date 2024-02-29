@@ -25,11 +25,14 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors({
-    origin: "http://127.0.0.1:5500",
-    methods: ["GET", "PUT", "POST", "DELETE"],
-    credentials: true
-}))
+// Enable CORS
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
+});
 // app.use(express.urlencoded({extended: true}))
 
 mongoose.connect(process.env.MONGO_URI)
