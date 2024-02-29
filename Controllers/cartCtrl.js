@@ -6,7 +6,7 @@ const { Wishlist } = require('../Models/wishlist')
 
 
 const getCart = async (req, res) => {
-    const userId = req.user;
+    const userId = req.user._id;
     console.log(userId)
 
     let cart = await Cart.findOne({ customer: userId });
@@ -15,7 +15,7 @@ const getCart = async (req, res) => {
         cart = new Cart({ customer: userId });
     }
 
-    if (cart.products.length === 0) return res.send("Your cart is empty!" + userId)
+    if (cart.products.length === 0) return res.send("Your cart is empty!")
 
     res.send(cart)
 }
