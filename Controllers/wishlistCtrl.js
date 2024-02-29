@@ -6,7 +6,7 @@ const { Product } = require('../Models/productModel')
 
 
 const getWishlist = async (req, res) => {
-    const userId = req.user._id;
+    const userId = req.user;
 
     const wishlist = await Wishlist.findOne({ customer: userId })
     res.send(wishlist)
@@ -16,7 +16,7 @@ const getWishlist = async (req, res) => {
 const postWishlist = async (req, res) => {
 
     const { products } = req.body;
-    const customer = req.user._id;
+    const customer = req.user;
 
 
     const { error } = validate(req.body)

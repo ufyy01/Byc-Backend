@@ -134,7 +134,7 @@ const deleteCartProduct = async (req, res) => {
 //Move product to wishlist
 const moveToWish = async (req, res) => {
     const productId = req.params.productId;
-    const userId = req.user._id;
+    const userId = req.user;
 
     try {
         // Find the user's cart
