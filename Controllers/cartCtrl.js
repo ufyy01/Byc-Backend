@@ -10,7 +10,10 @@ const getCart = async (req, res) => {
     console.log(userId)
 
     const cart = await Cart.findOne({ customer: userId });
-    if (!cart) return res.status(404).send('No cart found');
+    if (!cart) {
+        // If the user doesn't have a cart, create a new one
+        cart = new Cart({ customer });
+    }
 
     if (cart.products.length === 0) return res.send("Your cart is empty!")
 
