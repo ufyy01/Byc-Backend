@@ -2,11 +2,21 @@ const { Cart, validate } = require('../Models/cart')
 const { User } = require('../Models/user')
 const { Product } = require('../Models/productModel')
 const { Wishlist } = require('../Models/wishlist')
+const jwt = require('jsonwebtoken');
+const config = require('../config/default')
 
 
 
 const getCart = async (req, res) => {
-    const userId =  res.locals.user._id;
+
+    const token = req.cookies.jwt;
+    if (!token) return res.status(401).json({ message: 'Your cart is empty' });
+
+    const decoded = jwt.verify(token, config.jwtKey)
+    req.user = decoded;
+
+    const userId =  req.user_id;
+    
     console.log(userId)
 
     let cart = await Cart.findOne({ customer: userId });
