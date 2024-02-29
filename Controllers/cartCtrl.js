@@ -10,14 +10,14 @@ const config = require('../config/default')
 const getCart = async (req, res) => {
 
     const token = req.cookies.jwt;
-    if (!token) return res.status(401).json({ message: 'Your cart is empty' });
+    if (!token) return res.json({ message: 'Your cart is empty' });
 
     const decoded = jwt.verify(token, config.jwtKey)
     req.user = decoded;
 
     console.log(req.user)
 
-    const userId =  req.user_id;
+    const userId =  req.user._id;
 
     console.log(userId)
 
