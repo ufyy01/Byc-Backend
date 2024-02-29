@@ -15,7 +15,7 @@ const getCart = async (req, res) => {
         cart = new Cart({ customer: userId });
     }
 
-    if (cart.products.length === 0) return res.send("Your cart is empty!")
+    if (cart.products.length === 0) return res.send("Your cart is empty!" + userId)
 
     res.send(cart)
 }
