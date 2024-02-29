@@ -3,7 +3,7 @@ const config = require('../config/default')
 
 const requireAuth = (req, res, next) => {
     const token = req.cookies.jwt;
-    if (!token) return res.status(401).json({ message: 'Unauthorized' });
+    if (!token) return res.json({ message: 'Kindly login!' });
     try {
         const decoded = jwt.verify(token, config.jwtKey)
         req.user = decoded;
