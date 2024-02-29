@@ -52,7 +52,7 @@ app.get('*', checkUser)
 
 app.use('/api/products', productRouter);
 app.use('/api/user', userRouter);
-app.use('/api/cart', cartRouter)
+app.use('/api/cart', requireAuth, cartRouter)
 app.use('/api/order', orderRouter)
 app.use('/api/wishlist', requireAuth, wishlistRouter)
 app.use('/api/blog', blogRouter)
