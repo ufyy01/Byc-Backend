@@ -65,9 +65,10 @@ module.exports.login_post = async (req, res) => {
         const token = user.generateAuthToken()
         res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000, secure: true})
         res.status(200)
+        .header('Authorization', `Bearer ${token}`)
         .header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500') 
         .header('Access-Control-Allow-Credentials', 'true')
-        .json(token, { user: user._id });
+        .json({ token, user: user._id });
     }
     catch(err) {
         const errors = handleErrors(err)
