@@ -33,7 +33,7 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
 });
-// app.use(express.urlencoded({extended: true}))
+
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {
@@ -54,7 +54,7 @@ app.use('/api/products', productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)
-app.use('/api/wishlist', wishlistRouter)
+app.use('/api/wishlist', requireAuth, wishlistRouter)
 app.use('/api/blog', blogRouter)
 
 //calling clear cart function to schedule the cron job to run at 00:00 (midnight) every day
