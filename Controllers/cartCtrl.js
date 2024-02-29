@@ -15,11 +15,7 @@ const getCart = async (req, res) => {
     const decoded = jwt.verify(token, config.jwtKey)
     req.user = decoded;
 
-    console.log(req.user)
-
     const userId =  req.user._id;
-
-    console.log(userId)
 
     let cart = await Cart.findOne({ customer: userId });
     if (!cart) {
