@@ -50,7 +50,7 @@ module.exports.signup_post = async (req, res) => {
         const token = user.generateAuthToken()
         res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
 
-        res.header('x-auth-token', token).send({user: user._id, name, email, phone }) //find a way to display id without lodash
+        res.header('x-auth-token', token).send({user: user._id, name, email, phone }) //found a way to display id without lodash
     }
     catch (err) {
         const errors = handleErrors(err);
@@ -65,7 +65,7 @@ module.exports.login_post = async (req, res) => {
         const token = user.generateAuthToken()
         res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000, secure: true})
         res.status(200)
-        .header('Authorization', `Bearer ${token}`)
+        .header('x-auth-token', token)
         .header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500') 
         .header('Access-Control-Allow-Credentials', 'true')
         .json({ token, user: user._id });
