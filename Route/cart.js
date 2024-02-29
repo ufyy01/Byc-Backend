@@ -5,7 +5,7 @@ const requireAuth = require('../Middleware/authMiddleware')
 
 
 //get cart
-router.get('/', requireAuth, getCart)
+router.get('/', getCart)
 
 
 //POST cart
