@@ -68,7 +68,7 @@ module.exports.login_post = async (req, res) => {
         .header('x-auth-token', token)
         .header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500') 
         .header('Access-Control-Allow-Credentials', 'true')
-        .json({ token, user: user._id });
+        .json({ user: user.name });
     }
     catch(err) {
         const errors = handleErrors(err)
