@@ -39,7 +39,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
     session({
-        key: "Cookie",
         secret: config.jwtKey,
         resave: false,
         saveUninitialized: false,
@@ -49,7 +48,7 @@ app.use(
             path: '/',
             sameSite: 'None',
             secure: true,
-            domain: '127.0.0.1'
+            domain: '127.0.0.1:5500'
         }
     })
 )
