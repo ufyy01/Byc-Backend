@@ -50,7 +50,6 @@ module.exports.signup_post = async (req, res) => {
         const token = user.generateAuthToken()
         res.cookie('jwt', token, {
             maxAge: maxAge * 1000, 
-            secure: true, 
             httpOnly: true, 
             sameSite: 'None',
             domain: '127.0.0.1', 
