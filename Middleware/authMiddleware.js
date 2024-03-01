@@ -7,6 +7,7 @@ const requireAuth = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, config.jwtKey)
         req.user = decoded;
+        req.session.user = 
         // console.log(req.user._id)
         next();
     } catch (err) {

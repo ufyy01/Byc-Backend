@@ -10,7 +10,10 @@ const cartRouter = require('./Route/cart')
 const orderRouter = require('./Route/order')
 const wishlistRouter = require('./Route/wishlist')
 const blogRouter = require('./Route/blog')
+const config = require('./config/default')
 
+const session = require('express-session')
+const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const requireAuth = require('./Middleware/authMiddleware')
 const checkUser = require('./Middleware/checkUser')
@@ -18,22 +21,28 @@ const cron = require('node-cron');
 const { clearExpiredCarts } =require('./Controllers/cartCtrl')
 const { clearExpiredWishlist } =require('./Controllers/wishlistCtrl')
 
-
 const app = express();
-
 app.use(express.json())
-app.use(cookieParser())
-app.use(express.urlencoded({ extended: true }));
 
 // Enable CORS
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
-});
+app.use(
+    cors({
+        origin: ["http://127.0.0.1:5500/"],
+        credentials: true
+    })
+);
 
+app.use(cookieParser())
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(
+    session({
+        key: "jwt",
+        secret: config.jwtKey,
+        resave: false,
+        saveUninitialized: false
+    })
+)
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {

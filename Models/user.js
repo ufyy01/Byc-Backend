@@ -44,7 +44,7 @@ userSchema.pre('save', async function (next) {
 })
 
 userSchema.methods.generateAuthToken = function() {
-    const maxAge = 3 * 24 * 60 * 60
+    const maxAge = 1 * 24 * 60 * 60
     const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.jwtKey, {expiresIn: maxAge});
     return token;
 }

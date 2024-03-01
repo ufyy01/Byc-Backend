@@ -64,6 +64,7 @@ module.exports.login_post = async (req, res) => {
         const user = await User.login(email, password)
         const token = user.generateAuthToken()
         res.cookie('jwt', token, {maxAge: maxAge * 1000, secure: true, domain: 'http://127.0.0.1:5500'})
+        req.session.user = user
         res.status(200)
         .header('x-auth-token', token)
         .header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500') 
