@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
     session({
-        key: "jwt",
+        key: "Cookie",
         secret: config.jwtKey,
         resave: false,
         saveUninitialized: false,
@@ -48,7 +48,8 @@ app.use(
             secure: process.env.NODE_ENV === "production",
             path: '/',
             sameSite: 'None',
-            secure: true
+            secure: true,
+            domain: '127.0.0.1'
         }
     })
 )
