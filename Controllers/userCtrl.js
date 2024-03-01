@@ -76,7 +76,7 @@ module.exports.login_post = async (req, res) => {
             httpOnly: true, 
             sameSite: 'None'
         })
-        req.session.user = { id: user._id };
+        // req.session.user = { id: user._id };
         res.status(200)
         .header('x-auth-token', token)
         .header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500') 

@@ -37,21 +37,21 @@ app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use(
-    session({
-        secret: config.jwtKey,
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            maxAge: 24 * 60 * 60 * 1000,
-            secure: process.env.NODE_ENV === "production",
-            path: '/',
-            sameSite: 'None',
-            secure: true,
-            domain: '127.0.0.1:5500'
-        }
-    })
-)
+// app.use(
+//     session({
+//         secret: config.jwtKey,
+//         resave: false,
+//         saveUninitialized: false,
+//         cookie: {
+//             maxAge: 24 * 60 * 60 * 1000,
+//             secure: process.env.NODE_ENV === "production",
+//             path: '/',
+//             sameSite: 'None',
+//             secure: true,
+//             domain: '127.0.0.1:5500'
+//         }
+//     })
+// )
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {
