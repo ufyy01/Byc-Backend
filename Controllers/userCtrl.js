@@ -48,7 +48,7 @@ module.exports.signup_post = async (req, res) => {
     try{
         const user = await User.create({ name, email, phone, password })
         const token = user.generateAuthToken()
-        res.cookie('jwt', token, {maxAge: maxAge * 1000, secure: true, domain: 'http://127.0.0.1:5500'})
+        res.cookie('jwt', token, {maxAge: maxAge * 1000, secure: true, domain: '127.0.0.1', path: '/'})
 
         res.header('x-auth-token', token).send({user: user._id, name, email, phone }) //found a way to display id without lodash
     }
@@ -63,8 +63,14 @@ module.exports.login_post = async (req, res) => {
     try {
         const user = await User.login(email, password)
         const token = user.generateAuthToken()
-        res.cookie('jwt', token, {maxAge: maxAge * 1000, secure: true, domain: 'http://127.0.0.1:5500'})
-        req.session.user = user
+        res.cookie('jwt', token, { 
+            maxAge: maxAge * 1000, 
+            domain: '127.0.0.1', 
+            path: '/', 
+            httpOnly: true, 
+            sameSite: 'None'
+        })
+        req.session.user = { id: user._id };
         res.status(200)
         .header('x-auth-token', token)
         .header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500') 
