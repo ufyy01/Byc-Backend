@@ -36,14 +36,15 @@ app.use((req, res, next) => {
 app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(
-    session({
-        key: "jwt",
-        secret: config.jwtKey,
-        resave: false,
-        saveUninitialized: false
-    })
-)
+
+// app.use(
+//     session({
+//         key: "jwt",
+//         secret: config.jwtKey,
+//         resave: false,
+//         saveUninitialized: false
+//     })
+// )
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {
