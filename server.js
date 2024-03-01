@@ -1,7 +1,6 @@
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi)
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
 
 const productRouter = require('./Route/products');
@@ -10,16 +9,14 @@ const cartRouter = require('./Route/cart')
 const orderRouter = require('./Route/order')
 const wishlistRouter = require('./Route/wishlist')
 const blogRouter = require('./Route/blog')
-const config = require('./config/default')
+const { clearExpiredCarts } =require('./Controllers/cartCtrl')
+const { clearExpiredWishlist } =require('./Controllers/wishlistCtrl')
 
-const session = require('express-session')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const requireAuth = require('./Middleware/authMiddleware')
 const checkUser = require('./Middleware/checkUser')
 const cron = require('node-cron');
-const { clearExpiredCarts } =require('./Controllers/cartCtrl')
-const { clearExpiredWishlist } =require('./Controllers/wishlistCtrl')
 
 const app = express();
 app.use(express.json())
