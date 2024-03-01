@@ -48,7 +48,14 @@ module.exports.signup_post = async (req, res) => {
     try{
         const user = await User.create({ name, email, phone, password })
         const token = user.generateAuthToken()
-        res.cookie('jwt', token, {maxAge: maxAge * 1000, secure: true, domain: '127.0.0.1', path: '/'})
+        res.cookie('jwt', token, {
+            maxAge: maxAge * 1000, 
+            secure: true, 
+            httpOnly: true, 
+            sameSite: 'None',
+            domain: '127.0.0.1', 
+            path: '/'
+        })
 
         res.header('x-auth-token', token).send({user: user._id, name, email, phone }) //found a way to display id without lodash
     }
