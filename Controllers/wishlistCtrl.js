@@ -40,7 +40,7 @@ const postWishlist = async (req, res) => {
             const productDetails = await Product.findById(product.productId);
 
             if (!productDetails || productDetails.numberInStock === 0) {
-                return res.status(404).send('Product not found or out of stock');
+                return res.status(404).json({msg:'Product not found or out of stock'});
             }
 
             const { image, name, code, summary, price } = productDetails;
@@ -61,7 +61,7 @@ const postWishlist = async (req, res) => {
 
         // Save wishlist to database
         const newWishlist = await wishlist.save();
-        res.status(201).json(newWishlist);
+        res.status(201).json({msg:'Product added to wishlist!'});
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -92,7 +92,7 @@ const deleteWishlistProduct = async (req, res) => {
         // Save the updated wishlist
         const updatedWishlist = await wishlist.save();
 
-        res.json(updatedWishlist);
+        res.json({msg: 'Product removed from wishlist!'});
     } 
     catch (err) {
         console.error('Error deleting product from wishlist:', err);
