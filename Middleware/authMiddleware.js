@@ -2,7 +2,9 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/default')
 
 const requireAuth = (req, res, next) => {
-    const token = req.header('authorization');
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Extract the token part
+    
     if (!token) return res.json({ message: 'Kindly login!' });
     try {
         const decoded = jwt.verify(token, config.jwtKey)
