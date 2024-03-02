@@ -70,11 +70,12 @@ const postWishlist = async (req, res) => {
 //delete product from wishlist
 const deleteWishlistProduct = async (req, res) => {
 
+    const customer = req.user._id;
     
-    const { id, productId } = req.params;
+    const { productId } = req.params;
     
     try {
-        const wishlist = await Wishlist.findById(id);
+        const wishlist = await Wishlist.findOne({ customer });
         if (!wishlist) return res.status(404).send('wishlist not found');
 
         // Find the index of the product to remove

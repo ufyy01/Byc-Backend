@@ -11,7 +11,7 @@ router.get('/', getWishlist)
 router.post('/', postWishlist)
 
 //DELETE product
-router.delete('/:id/:productId', deleteWishlistProduct)
+router.delete('/:productId', deleteWishlistProduct)
 
 
 
