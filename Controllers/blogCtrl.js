@@ -11,10 +11,10 @@ const getOneBlog =  async (req, res) => {
     try {
         const { id } = req.params
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).send("No such Blog")
+            return res.status(404).json({msg:"No such Blog"})
         }
         const blog = await Blog.findById(id)
-        if (!blog) return res.status(404).send('Blog not found')
+        if (!blog) return res.status(404).json({msg:'Blog not found'})
     
         // Increment the number of views
         blog.views++;
@@ -33,12 +33,12 @@ const blogLikes = async (req, res) => {
     const { id } = req.params
 
     const blog = await Blog.findById(id)
-    if (!blog) return res.status(404).send('Blog not found')
+    if (!blog) return res.status(404).json({msg:'Blog not found'})
     
     blog.likes++;
     
     await blog.save()
-    res.send('Blog liked!');
+    res.json({msg:'Blog liked!'});
 }
 
 const createBlog =  async (req, res) => {
