@@ -2,6 +2,7 @@ const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi)
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors')
 
 const productRouter = require('./Route/products');
 const userRouter = require('./Route/users')
