@@ -13,7 +13,6 @@ const { clearExpiredCarts } =require('./Controllers/cartCtrl')
 const { clearExpiredWishlist } =require('./Controllers/wishlistCtrl')
 
 const bodyParser = require('body-parser')
-const cookieParser = require('cookie-parser')
 const requireAuth = require('./Middleware/authMiddleware')
 const checkUser = require('./Middleware/checkUser')
 const cron = require('node-cron');
@@ -30,25 +29,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(cookieParser())
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
-// app.use(
-//     session({
-//         secret: config.jwtKey,
-//         resave: false,
-//         saveUninitialized: false,
-//         cookie: {
-//             maxAge: 24 * 60 * 60 * 1000,
-//             secure: process.env.NODE_ENV === "production",
-//             path: '/',
-//             sameSite: 'None',
-//             secure: true,
-//             domain: '127.0.0.1:5500'
-//         }
-//     })
-// )
 
 mongoose.connect(process.env.MONGO_URI)
 .then(() => {
@@ -58,10 +39,10 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 app.use(express.json())
-app.use((req, res, next) => {
-    console.log(req.path, req.method)
-    next()
-})
+// app.use((req, res, next) => {
+//     console.log(req.path, req.method)
+//     next()
+// })
 
 app.get('*', checkUser)
 

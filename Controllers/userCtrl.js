@@ -47,13 +47,6 @@ module.exports.signup_post = async (req, res) => {
     
     try{
         const user = await User.create({ name, email, phone, password })
-        const token = user.generateAuthToken()
-        res.cookie('Cookie', token, {
-            maxAge: maxAge * 1000, 
-            httpOnly: true, 
-            sameSite: 'None',
-            path: '/'
-        })
 
         res.send({user: user._id, name, email, phone }) //found a way to display id without lodash
     }
@@ -68,24 +61,14 @@ module.exports.login_post = async (req, res) => {
     try {
         const user = await User.login(email, password)
         const token = user.generateAuthToken()
-        res.cookie('Cookie', token, { 
-            maxAge: maxAge * 1000, 
-            path: '/', 
-            httpOnly: true, 
-            sameSite: 'None'
-        })
-        // req.session.user = { id: user._id };
+
         res.status(200)
         .header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500') 
         .header('Access-Control-Allow-Credentials', 'true')
-        .json({ user: user.name });
+        .json({ token, user: user.name });
     }
     catch(err) {
         const errors = handleErrors(err)
         res.status(400).json({ errors })
     }
-}
-
-module.exports.logout_get = (req, res) => {
-    res.cookie('jwt', '', {maxAge: 1}).send("You've been logged out")
 }
