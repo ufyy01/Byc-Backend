@@ -44,7 +44,6 @@ app.use(express.json())
 //     next()
 // })
 
-app.get('*', checkUser)
 
 app.use('/api/products', productRouter);
 app.use('/api/user', userRouter);
