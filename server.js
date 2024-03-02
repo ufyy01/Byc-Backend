@@ -15,7 +15,6 @@ const { clearExpiredWishlist } =require('./Controllers/wishlistCtrl')
 
 const bodyParser = require('body-parser')
 const requireAuth = require('./Middleware/authMiddleware')
-const checkUser = require('./Middleware/checkUser')
 const cron = require('node-cron');
 
 const app = express();
