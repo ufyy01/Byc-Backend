@@ -23,7 +23,10 @@ const getCart = async (req, res) => {
 
 const postCart = async (req, res) => {
 
-    const { customer, products} = req.body;
+    const customer = req.user._id;
+    console.log(customer)
+
+    const { products} = req.body;
 
     const { error } = validate(req.body)
     if (error) return res.status(400).send(error.details[0].message);

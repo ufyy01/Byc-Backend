@@ -63,7 +63,6 @@ const Cart = mongoose.model('Cart', cartSchema);
 
 function validateCart(cart) {
     const schema = Joi.object({
-        customer: Joi.objectId().required(),
         products: Joi.array().required(),
     }) 
     return schema.validate(cart)
