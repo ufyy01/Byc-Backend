@@ -130,7 +130,7 @@ const deleteCartProduct = async (req, res) => {
         // Save the updated cart
         const updatedCart = await cart.save();
 
-        res.json(updatedCart);
+        res.json({message: "Product removed from cart!"});
     } 
     catch (err) {
         console.error('Error deleting product from cart:', err);
