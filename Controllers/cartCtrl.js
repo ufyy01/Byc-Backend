@@ -93,7 +93,7 @@ const postCart = async (req, res) => {
 
         // Save cart to database
         const newCart = await cart.save();
-        res.status(201).json(newCart);
+        res.status(201).json({ message:"product added to cart!"});
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
