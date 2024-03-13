@@ -179,7 +179,7 @@ const moveToWish = async (req, res) => {
         await cart.save();
         await wishlist.save();
 
-        res.json({ wishlist });
+        res.json({ message: "Product moved to wishlist!" });
     }
     catch (error) {
         console.error('Error moving product to wishlist:', error);
