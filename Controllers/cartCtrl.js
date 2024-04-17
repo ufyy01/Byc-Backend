@@ -101,7 +101,7 @@ const postCart = async (req, res) => {
 //update cart
 const updateCart = async (req, res) => {
     const customer = req.user._id;
-    const { products} = req.body;
+    const { products } = req.body;
     
     try {
         const cart = await Cart.findOne({ customer });
@@ -143,7 +143,7 @@ const updateCart = async (req, res) => {
         res.status(201).json({ message:"cart updated!"});
     } 
     catch (err) {
-        console.error('Error deleting product from cart:', err);
+        console.error('Error updating cart:', err);
         res.status(500).json({ message: err.message });
     }
 
