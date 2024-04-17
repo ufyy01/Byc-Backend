@@ -7,7 +7,6 @@ const { Wishlist } = require('../Models/wishlist')
 
 const getCart = async (req, res) => {
     const userId = req.user._id;
-    console.log(userId)
 
     let cart = await Cart.findOne({ customer: userId });
     if (!cart) {
@@ -101,7 +100,6 @@ const postCart = async (req, res) => {
 //update cart
 const updateCart = async (req, res) => {
     const customer = req.user._id;
-    console.log(req.user._id)
     const { products } = req.body;
     
     try {
