@@ -24,7 +24,6 @@ const getCart = async (req, res) => {
 const postCart = async (req, res) => {
 
     const customer = req.user._id;
-    console.log(customer)
 
     const { products} = req.body;
 
@@ -97,6 +96,57 @@ const postCart = async (req, res) => {
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
+}
+
+//update cart
+const updateCart = async (req, res) => {
+    const customer = req.user._id;
+    const { products} = req.body;
+    
+    try {
+        const cart = await Cart.findOne({ customer });
+        if (!cart) return res.status(404).send('Cart not found');
+
+        let totalSum = 0;
+
+        //Add new products to cart
+        for (const product of products) {
+            const productDetails = await Product.findById(product.productId);
+            if (!productDetails || productDetails.numberInStock === 0) {
+                return res.status(404).send('Product not found or out of stock');
+            }
+            
+            totalSum = product.quantity * productDetails.price;
+            
+            const existingProductIndex = cart.products.findIndex(prod => 
+                prod.id === product.productId && 
+                prod.color === product.color &&
+                prod.size === product.size
+            );
+
+            if (existingProductIndex !== -1) {
+                // If the product exists, update its quantity
+                cart.products[existingProductIndex].quantity = product.quantity;
+                cart.products[existingProductIndex].totalSum = product.quantity * productDetails.price;
+            } 
+        }
+
+        // Recalculate the billing based on the updated products
+        let totalPrice = 0;
+        for (const product of cart.products) {
+            totalPrice += product.quantity * product.price;
+        }
+        cart.billing = totalPrice;
+
+        // Save cart to database
+        const newCart = await cart.save();
+        res.status(201).json({ message:"cart updated!"});
+    } 
+    catch (err) {
+        console.error('Error deleting product from cart:', err);
+        res.status(500).json({ message: err.message });
+    }
+
 }
 
 //delete product from cart
@@ -223,6 +273,7 @@ const clearExpiredCarts = async () => {
 module.exports = {
     getCart,
     postCart,
+    updateCart,
     deleteCartProduct,
     moveToWish,
     clearExpiredCarts
