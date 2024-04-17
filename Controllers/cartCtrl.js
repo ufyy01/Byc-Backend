@@ -101,6 +101,7 @@ const postCart = async (req, res) => {
 //update cart
 const updateCart = async (req, res) => {
     const customer = req.user._id;
+    console.log(req.user._id)
     const { products } = req.body;
     
     try {
