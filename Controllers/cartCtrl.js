@@ -151,11 +151,12 @@ const updateCart = async (req, res) => {
 //delete product from cart
 const deleteCartProduct = async (req, res) => {
 
-    
-    const { id, productId } = req.params;
+    const customer = req.user._id;
+
+    const { productId } = req.params;
     
     try {
-        const cart = await Cart.findById(id);
+        const cart = await Cart.findOne({ customer });
         if (!cart) return res.status(404).send('Cart not found');
 
         // Find the index of the product to remove

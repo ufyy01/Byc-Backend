@@ -17,7 +17,7 @@ router.put('/', updateCart)
 router.post('/to-wishlist/:productId', moveToWish)
 
 //DELETE product
-router.delete('/:id/:productId', deleteCartProduct)
+router.delete('/:productId', deleteCartProduct)
 
 
 
