@@ -200,31 +200,36 @@ const moveToWish = async (req, res) => {
             return res.status(404).json({ message: 'Cart not found for user' });
         }
 
-        // Find the product in the cart
-        const productIndex = cart.products.findIndex(product => product.id === productId);
-        console.log(productIndex)
-        if (productIndex === -1) {
-            return res.status(404).json({ message: 'Product not found in cart' });
-        }
-
-        // Get the price and quantity of the product being removed
-        const { price, quantity } = cart.products[productIndex];
-
-        // Remove the product from the cart
-        const [product] = cart.products.splice(productIndex, 1);
-        
-        // Update the billing by subtracting the removed product's cost
-        cart.billing -= price * quantity;
-
         // Find or create the user's wishlist
         let wishlist = await Wishlist.findOne({ customer: userId });
         if (!wishlist) {
             wishlist = new Wishlist({ customer: userId, products: [] });
         }
 
-        // Add the product to the wishlist
-        wishlist.products.push(product);
+        // Find the product in the cart
+        const productIndex = cart.products.findIndex(product => product.id === productId);
+        console.log(productIndex)
+        if (productIndex !== -1) {
+            // Get the price and quantity of the product being removed
+            const { price, quantity } = cart.products[productIndex];
 
+            // Remove the product from the cart
+            const [product] = cart.products.splice(productIndex, 1);
+            
+            // Update the billing by subtracting the removed product's cost
+            cart.billing -= price * quantity;
+
+            // Add the product to the wishlist
+            wishlist.products.push(product);
+            
+        }
+        else {
+            const product = await Product.findById(productId)
+
+            // Add the product to the wishlist
+            wishlist.products.push(product);
+        }
+        
         // Save the updated cart and wishlist
         await cart.save();
         await wishlist.save();
