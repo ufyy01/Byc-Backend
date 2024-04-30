@@ -224,10 +224,28 @@ const moveToWish = async (req, res) => {
             
         }
         else {
-            const product = await Product.findById(productId)
-
-            // Add the product to the wishlist
-            wishlist.products.push(product);
+            for (const product of products) {
+                const productDetails = await Product.findById(product.productId);
+    
+                if (!productDetails || productDetails.numberInStock === 0) {
+                    return res.status(404).json({msg:'Product not found or out of stock'});
+                }
+    
+                const { image, name, code, summary, price } = productDetails;
+    
+                const checkProductIndex = wishlist.products.findIndex(prod => prod.id === product.productId);
+                if (checkProductIndex === -1) {
+                    // Add the product to the list of wishlist products
+                    wishlist.products.push({
+                        _id: product.productId,
+                        image: image[0], 
+                        name,
+                        code,
+                        summary,
+                        price
+                    });
+                }
+            }
         }
         
         // Save the updated cart and wishlist
