@@ -64,7 +64,7 @@ module.exports.login_post = async (req, res) => {
 
         res.status(200)
         .header('x-auth-token', token)
-        .header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500') 
+        .header('Access-Control-Allow-Origin', 'https://ufyy01.github.io') 
         .header('Access-Control-Allow-Credentials', 'true')
         .json({ token, user: user.name });
     }
