@@ -22,7 +22,7 @@ app.use(express.json())
 
 // Enable CORS
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://ufyy01.github.io/bycweb/*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://ufyy01.github.io/');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
